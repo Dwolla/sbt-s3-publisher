@@ -5,7 +5,7 @@ import sbt._
 
 import scala.language.postfixOps
 
-trait AwsLambdaFunctionKeys {
+trait S3PublisherPluginKeys {
   lazy val s3BucketEnvironmentVariable = SettingKey[Option[String]]("environment variable possibly holding an override to «defaultS3Bucket»")
   lazy val s3TransferManager = SettingKey[TransferManager]("S3 transfer manager")
   lazy val defaultS3Bucket = SettingKey[String]("defaultS3Bucket", "Default S3 bucket for artifact")

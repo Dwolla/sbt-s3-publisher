@@ -11,9 +11,9 @@ lazy val buildVersion = {
 
 lazy val buildSettings = Seq(
   organization := "com.dwolla.sbt",
-  name := "aws-lambda",
-  homepage := Some(url("https://github.com/Dwolla/sbt-aws-lambda")),
-  description := "SBT plugin to deploy AWS Lambda functions using CloudFormation",
+  name := "sbt-s3-publisher",
+  homepage := Some(url("https://github.com/Dwolla/sbt-s3-publisher")),
+  description := "SBT plugin to publish an assembled jar to S3",
   licenses += ("MIT", url("http://opensource.org/licenses/MIT")),
   version := buildVersion,
   scalaVersion := "2.10.6",
@@ -27,7 +27,7 @@ lazy val buildSettings = Seq(
       "com.amazonaws"   %  "aws-java-sdk-s3"              % awsSdkVersion,
       "com.amazonaws"   %  "aws-java-sdk-cloudformation"  % awsSdkVersion,
       "ch.qos.logback"  %  "logback-classic"              % "1.1.7",
-      "com.dwolla"      %% "scala-aws-utils"              % "0.1.6",
+      "com.dwolla"      %% "scala-aws-utils"              % "0.2.15",
       "org.specs2"      %% "specs2-core"                  % specs2Version  % "test",
       "org.specs2"      %% "specs2-mock"                  % specs2Version  % "test"
     )
@@ -45,5 +45,16 @@ lazy val bintraySettings = Seq(
 addSbtPlugin("com.typesafe.sbt" % "sbt-git" % "0.8.5")
 addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.12.0")
 
-val awsLambdaPlugin = (project in file("."))
+lazy val pipeline = InputKey[Unit]("pipeline", "Runs the full build pipeline: compile, test, integration tests")
+pipeline := scripted.dependsOn(test in Test).evaluated
+
+scriptedLaunchOpts := { scriptedLaunchOpts.value ++
+  Seq("-Xmx1024M", "-Dplugin.version=" + version.value)
+}
+
+// uncomment to see sbt output for each scripted test run
+//scriptedBufferLog := false
+
+val s3PublisherPlugin = (project in file("."))
   .settings(buildSettings ++ bintraySettings: _*)
+  .settings(ScriptedPlugin.scriptedSettings: _*)

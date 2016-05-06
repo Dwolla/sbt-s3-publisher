@@ -6,7 +6,7 @@ import com.amazonaws.services.s3.transfer.TransferManager
 import com.dwolla.util.{Environment, SystemEnvironment}
 import sbt.Keys.TaskStreams
 
-class AwsLambdaFunctionPlugin(environment: Environment = SystemEnvironment) {
+class S3PublisherPlugin(environment: Environment = SystemEnvironment) {
   val defaultS3Bucket = "dwolla-code-sandbox"
   val defaultBucketEnvironmentVariable = Option("DWOLLA_CODE_BUCKET")
 

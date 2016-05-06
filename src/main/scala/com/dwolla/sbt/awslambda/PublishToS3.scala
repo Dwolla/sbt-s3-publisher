@@ -7,16 +7,16 @@ import sbtassembly.AssemblyPlugin
 
 import scala.language.{implicitConversions, postfixOps}
 
-object AwsLambdaFunction extends AutoPlugin {
+object PublishToS3 extends AutoPlugin {
 
-  object autoImport extends AwsLambdaFunctionKeys
+  object autoImport extends S3PublisherPluginKeys
 
   import autoImport._
   import sbtassembly.AssemblyPlugin.autoImport._
 
   override def requires = GitVersioning && AssemblyPlugin
 
-  lazy val plugin = new AwsLambdaFunctionPlugin
+  lazy val plugin = new S3PublisherPlugin
 
   lazy val defaultValues = Seq(
     s3BucketEnvironmentVariable := plugin.defaultBucketEnvironmentVariable,

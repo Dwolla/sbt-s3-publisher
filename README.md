@@ -1,25 +1,25 @@
-# Amazon Web Services Lambda Function SBT Plugin
+# Amazon S3 Publisher SBT Plugin
 
-[![Travis](https://img.shields.io/travis/Dwolla/sbt-aws-lambda.svg?style=flat-square)](https://travis-ci.org/Dwolla/sbt-aws-lambda)
-[![Bintray](https://img.shields.io/bintray/v/dwolla/sbt-plugins/aws-lambda.svg?style=flat-square)](https://bintray.com/dwolla/sbt-plugins/aws-lambda/view)
-[![license](https://img.shields.io/github/license/Dwolla/sbt-aws-lambda.svg?style=flat-square)]()
+[![Travis](https://img.shields.io/travis/Dwolla/sbt-s3-publisher.svg?style=flat-square)](https://travis-ci.org/Dwolla/sbt-s3-publisher)
+[![Bintray](https://img.shields.io/bintray/v/dwolla/sbt-plugins/sbt-s3-publisher.svg?style=flat-square)](https://bintray.com/dwolla/sbt-plugins/sbt-s3-publisher/view)
+[![license](https://img.shields.io/github/license/Dwolla/sbt-s3-publisher.svg?style=flat-square)]()
 
-An sbt plugin to publish and deploy Java 8-based AWS Lambda Functions.
+An sbt plugin to assemble and publish application jars to Amazon S3.
 
 ## Installation and Enabling
 
 Add the following to `project/plugins.sbt`
 
-    addSbtPlugin("com.dwolla.sbt" % "aws-lambda" % "{version-number}")
+    addSbtPlugin("com.dwolla.sbt" % "sbt-s3-publisher" % "{version-number}")
 
 Then, enable the plugin by adding something like the following to `build.sbt`:
 
-    val app = (project in file(".")).enablePlugins(AwsLambdaFunction)
+    val app = (project in file(".")).enablePlugins(PublishToS3)
 
 ## Included Plugins
 
 - [sbt-git](https://github.com/sbt/sbt-git) plugin to set the version using the git hash
-- [sbt-assembly]() to build the jar composing the Lambda function.
+- [sbt-assembly]() to build the jar
 
 ## Settings
 
@@ -49,8 +49,4 @@ If custom S3 transfer settings are needed (a different credential strategy, etc.
 
 ### `publish`
 
-Assembles a JAR and uploads it to the configured S3 path.
-
-### `stack/deploy`
-
-Creates a CloudFormation stack that deploys the Lambda function.
+Assembles a jar and uploads it to the configured S3 path.

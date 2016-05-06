@@ -10,10 +10,10 @@ import org.specs2.specification.Scope
 import sbt.Keys.TaskStreams
 import sbt.Logger
 
-class AwsLambdaFunctionPluginSpec extends Specification with Mockito {
+class S3PublisherPluginSpec extends Specification with Mockito {
 
   class Setup(environment: (String, String)*) extends Scope {
-    val testClass = new AwsLambdaFunctionPlugin(FakeEnvironment(Map(environment: _*)))
+    val testClass = new S3PublisherPlugin(FakeEnvironment(Map(environment: _*)))
   }
 
   case class FakeEnvironment(map: Map[String, String]) extends Environment {
