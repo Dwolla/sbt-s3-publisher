@@ -12,6 +12,11 @@ Add the following to `project/plugins.sbt`
 
     addSbtPlugin("com.dwolla.sbt" % "sbt-s3-publisher" % "{version-number}")
 
+    resolvers ++= Seq(
+      Resolver.bintrayIvyRepo("dwolla", "sbt-plugins"),
+      Resolver.bintrayIvyRepo("dwolla", "maven")
+    )
+
 Then, enable the plugin by adding something like the following to `build.sbt`:
 
     val app = (project in file(".")).enablePlugins(PublishToS3)

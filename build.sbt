@@ -35,7 +35,7 @@ lazy val buildSettings = Seq(
 )
 
 lazy val bintraySettings = Seq(
-  bintrayVcsUrl := Some("https://github.com/Dwolla/sbt-aws-lambda"),
+  bintrayVcsUrl := Some("https://github.com/Dwolla/sbt-s3-publisher"),
   publishMavenStyle := false,
   bintrayRepository := "sbt-plugins",
   bintrayOrganization := Option("dwolla"),
