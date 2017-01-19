@@ -46,6 +46,8 @@ The intention is to allow a build system to set a different, more restrictive bu
 
 By default, `s3Key` will be set to `lambdas/{normalizedName}/{version}/{normalizedName}.jar`.
 
+If the `version` value ends with `-SNAPSHOT`, the SHA1 hash of the assembly JAR will be included in the path.
+
 ### `s3TransferManager`
 
 If custom S3 transfer settings are needed (a different credential strategy, etc.), a `com.amazonaws.services.s3.transfer.TransferManager` can be provided using the `s3TransferManager` setting.
