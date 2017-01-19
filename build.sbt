@@ -1,33 +1,22 @@
-import java.lang.System._
-
-lazy val buildVersion = {
-  val mainVersion = "0.2"
-  val minorVersion = Option(getenv("TRAVIS_BUILD_NUMBER"))
-  minorVersion match {
-    case Some(v: String) ⇒ s"$mainVersion.$v"
-    case None ⇒ mainVersion + "-SNAPSHOT"
-  }
-}
-
 lazy val buildSettings = Seq(
   organization := "com.dwolla.sbt",
   name := "sbt-s3-publisher",
   homepage := Some(url("https://github.com/Dwolla/sbt-s3-publisher")),
   description := "SBT plugin to publish an assembled jar to S3",
   licenses += ("MIT", url("http://opensource.org/licenses/MIT")),
-  version := buildVersion,
+  version := "1.0.0",
   scalaVersion := "2.10.6",
   sbtPlugin := true,
   startYear := Option(2016),
   resolvers += Resolver.bintrayIvyRepo("dwolla", "maven"),
   libraryDependencies ++= {
-    val awsSdkVersion = "1.11.35"
-    val specs2Version = "3.8.5"
+    val awsSdkVersion = "1.11.75"
+    val specs2Version = "3.8.6"
     Seq(
       "com.amazonaws"   %  "aws-java-sdk-s3"              % awsSdkVersion,
       "com.amazonaws"   %  "aws-java-sdk-cloudformation"  % awsSdkVersion,
       "ch.qos.logback"  %  "logback-classic"              % "1.1.7",
-      "com.dwolla"      %% "scala-aws-utils"              % "0.3.19",
+      "com.dwolla"      %% "scala-aws-utils"              % "1.0.0",
       "org.specs2"      %% "specs2-core"                  % specs2Version  % "test",
       "org.specs2"      %% "specs2-mock"                  % specs2Version  % "test"
     )

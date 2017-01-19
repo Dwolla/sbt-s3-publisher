@@ -13,7 +13,10 @@ import sbt.Logger
 class S3PublisherPluginSpec extends Specification with Mockito {
 
   class Setup(environment: (String, String)*) extends Scope {
-    val testClass = new S3PublisherPlugin(FakeEnvironment(Map(environment: _*)))
+    val testClass = new S3PublisherPlugin(FakeEnvironment(Map(environment: _*))) {
+      override protected def sha1(jar: File): String = if (jar == mockFile) "sha1" else "the wrong file was passed into the SHA1 function"
+    }
+    val mockFile = mock[File]
   }
 
   case class FakeEnvironment(map: Map[String, String]) extends Environment {
@@ -46,7 +49,11 @@ class S3PublisherPluginSpec extends Specification with Mockito {
 
   "s3Prefix" should {
     "parameterize normalizedName and version and return the correct path prefix" in new Setup {
-      testClass.s3Prefix("normalizedName", "version") must_== "lambdas/normalizedName/version"
+      testClass.s3Prefix("normalizedName", "version", mockFile) must_== "lambdas/normalizedName/version"
+    }
+
+    "include the assembly jar's sha1 in the prefix if the version is a snapshot" in new Setup {
+      testClass.s3Prefix("normalizedName", "version-SNAPSHOT", mockFile) must_== "lambdas/normalizedName/version-SNAPSHOT/sha1"
     }
   }
 
