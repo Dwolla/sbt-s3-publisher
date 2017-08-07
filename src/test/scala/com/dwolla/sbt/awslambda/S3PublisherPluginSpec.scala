@@ -3,12 +3,14 @@ package com.dwolla.sbt.awslambda
 import java.io.File
 
 import com.amazonaws.services.s3.transfer.{TransferManager, Upload}
+import com.dwolla.sbt.testutils.LoggerCaptor._
 import com.dwolla.util.Environment
 import org.specs2.mock.Mockito
 import org.specs2.mutable.Specification
 import org.specs2.specification.Scope
-import sbt.Keys.TaskStreams
-import sbt.Logger
+import xsbti.Logger
+
+import scala.collection.JavaConverters._
 
 class S3PublisherPluginSpec extends Specification with Mockito {
 
@@ -77,11 +79,6 @@ class S3PublisherPluginSpec extends Specification with Mockito {
         m
       }
       val log = mock[Logger]
-      val streams = {
-        val m = mock[TaskStreams]
-        m.log returns log
-        m
-      }
       val upload = mock[Upload]
       val transferManager = {
         val m = mock[TransferManager]
@@ -89,11 +86,14 @@ class S3PublisherPluginSpec extends Specification with Mockito {
         m
       }
 
-      testClass.publish(artifact, "bucket", "key", streams, transferManager)
+      val logCaptor = loggerCapture()
 
-      there was one(log).info("Uploading «name» to «s3://bucket/key»")
+      testClass.publish(artifact, "bucket", "key", log, transferManager)
+
+      there were two(log).info(logCaptor.capture)
       there was one(upload).waitForCompletion()
-      there was one(log).info("Published to «s3://bucket/key»")
+
+      logCaptor.values.asScala.map(_.get()) must_== Seq("Uploading «name» to «s3://bucket/key»", "Published to «s3://bucket/key»")
     }
   }
 }

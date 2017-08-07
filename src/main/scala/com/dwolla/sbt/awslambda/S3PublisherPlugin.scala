@@ -2,25 +2,26 @@ package com.dwolla.sbt.awslambda
 
 import java.io.File
 
-import com.amazonaws.services.s3.transfer.TransferManager
+import com.amazonaws.services.s3.transfer.{TransferManager, TransferManagerBuilder}
 import com.dwolla.util.{Environment, SystemEnvironment}
 import sbt.Hash
 import sbt.Hash.toHex
-import sbt.Keys.TaskStreams
+import xsbti.Logger
 
 class S3PublisherPlugin(environment: Environment = SystemEnvironment) {
+  import com.dwolla.sbt.util.LoggerImplicits._
   val defaultS3Bucket = "dwolla-code-sandbox"
   val defaultBucketEnvironmentVariable = Option("DWOLLA_CODE_BUCKET")
 
   private val snapshotRegex = "(.*)-SNAPSHOT".r
 
-  def publish(artifact: File, bucket: String, s3Key: String, streams: TaskStreams, transferManager: TransferManager) = {
-    streams.log.info(s"Uploading «${artifact.getName}» to «s3://$bucket/$s3Key»")
+  def publish(artifact: File, bucket: String, s3Key: String, log: Logger, transferManager: TransferManager) = {
+    log.info(s"Uploading «${artifact.getName}» to «s3://$bucket/$s3Key»")
     transferManager.upload(bucket, s3Key, artifact).waitForCompletion()
-    streams.log.info(s"Published to «s3://$bucket/$s3Key»")
+    log.info(s"Published to «s3://$bucket/$s3Key»")
   }
 
-  def s3TransferManager = new TransferManager()
+  def s3TransferManager: TransferManager = TransferManagerBuilder.defaultTransferManager()
 
   def s3Key(s3Prefix: String, normalizedName: String) = s"$s3Prefix/$normalizedName.jar"
 

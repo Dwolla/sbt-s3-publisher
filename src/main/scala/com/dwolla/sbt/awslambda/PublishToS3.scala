@@ -28,7 +28,7 @@ object PublishToS3 extends AutoPlugin {
     s3Bucket := plugin.s3Bucket(s3BucketEnvironmentVariable.value, defaultS3Bucket.value),
     s3Prefix := plugin.s3Prefix(normalizedName.value, version.value, (assembly in assembly).value),
     s3Key := plugin.s3Key(s3Prefix.value, normalizedName.value),
-    publish := plugin.publish((assembly in assembly).value, s3Bucket.value, s3Key.value, streams.value, s3TransferManager.value)
+    publish := plugin.publish((assembly in assembly).value, s3Bucket.value, s3Key.value, streams.value.log, s3TransferManager.value)
   )
 
   lazy val awsLambdaFunctionPluginSettings = Defaults.itSettings ++ defaultValues ++ tasks
