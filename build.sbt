@@ -4,7 +4,6 @@ lazy val buildSettings = Seq(
   homepage := Some(url("https://github.com/Dwolla/sbt-s3-publisher")),
   description := "SBT plugin to publish an assembled jar to S3",
   licenses += ("MIT", url("http://opensource.org/licenses/MIT")),
-  version := "1.0.0",
   sbtPlugin := true,
   crossSbtVersions := Vector("1.0.0-RC3", "0.13.16"),
   startYear := Option(2016),
@@ -27,6 +26,11 @@ lazy val buildSettings = Seq(
       sbtPluginExtra("com.typesafe.sbt" % "sbt-git" % "0.9.3", currentSbtVersion, scalaBinaryVersion.value),
       sbtPluginExtra("com.eed3si9n" % "sbt-assembly" % "0.14.5", currentSbtVersion, scalaBinaryVersion.value)
     )
+  },
+  releaseVersionBump := sbtrelease.Version.Bump.Minor,
+  releaseProcess --= {
+    import ReleaseTransformations._
+    Seq(runClean, runTest, publishArtifacts)
   }
 )
 
