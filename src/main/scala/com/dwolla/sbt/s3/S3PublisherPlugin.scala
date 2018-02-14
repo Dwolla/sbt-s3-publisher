@@ -1,4 +1,4 @@
-package com.dwolla.sbt.awslambda
+package com.dwolla.sbt.s3
 
 import java.io.File
 

@@ -1,4 +1,4 @@
-package com.dwolla.sbt.awslambda
+package com.dwolla.sbt.s3
 
 import com.dwolla.sbt.s3.model.VersionedArtifact
 import com.typesafe.sbt.GitVersioning

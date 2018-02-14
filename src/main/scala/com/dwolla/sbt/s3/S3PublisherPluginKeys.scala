@@ -1,4 +1,4 @@
-package com.dwolla.sbt.awslambda
+package com.dwolla.sbt.s3
 
 import com.amazonaws.services.s3.transfer.TransferManager
 import sbt._
