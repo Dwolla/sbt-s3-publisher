@@ -31,4 +31,4 @@ if [ "$TRAVIS_COMMIT" != "$MASTER" ]; then
   exit 0
 fi
 
-sbt clean "release with-defaults"
+sbt "release with-defaults"
