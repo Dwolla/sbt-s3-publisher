@@ -62,4 +62,4 @@ scriptedLaunchOpts := { scriptedLaunchOpts.value ++
 //scriptedBufferLog := false
 
 val s3PublisherPlugin = (project in file("."))
-  .settings(buildSettings ++ bintraySettings: _*)
+  .settings(buildSettings ++ bintraySettings ++ releaseSettings: _*)
