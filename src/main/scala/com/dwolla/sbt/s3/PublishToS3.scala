@@ -1,5 +1,6 @@
-package com.dwolla.sbt.awslambda
+package com.dwolla.sbt.s3
 
+import com.dwolla.sbt.s3.model.VersionedArtifact
 import com.typesafe.sbt.GitVersioning
 import sbt.Keys._
 import sbt._
@@ -21,17 +22,18 @@ object PublishToS3 extends AutoPlugin {
   lazy val defaultValues = Seq(
     s3BucketEnvironmentVariable := plugin.defaultBucketEnvironmentVariable,
     s3TransferManager := plugin.s3TransferManager,
-    defaultS3Bucket := plugin.defaultS3Bucket
+    defaultS3Bucket := plugin.defaultS3Bucket,
+    uploadedArtifact := (assembly in assembly).value
   )
 
   lazy val tasks = Seq(
     s3Bucket := plugin.s3Bucket(s3BucketEnvironmentVariable.value, defaultS3Bucket.value),
-    s3Prefix := plugin.s3Prefix(normalizedName.value, version.value, (assembly in assembly).value),
+    s3Prefix := plugin.s3Prefix(normalizedName.value, version.value, VersionedArtifact((assembly in assembly).value, isSnapshot.value)),
     s3Key := plugin.s3Key(s3Prefix.value, normalizedName.value),
-    publish := plugin.publish((assembly in assembly).value, s3Bucket.value, s3Key.value, streams.value.log, s3TransferManager.value)
+    publish := plugin.publish(uploadedArtifact.value, s3Bucket.value, s3Key.value, streams.value.log, s3TransferManager.value)
   )
 
-  lazy val awsLambdaFunctionPluginSettings = Defaults.itSettings ++ defaultValues ++ tasks
+  lazy val publishToS3Settings = Defaults.itSettings ++ defaultValues ++ tasks
 
-  override lazy val projectSettings = awsLambdaFunctionPluginSettings
+  override lazy val projectSettings = publishToS3Settings
 }

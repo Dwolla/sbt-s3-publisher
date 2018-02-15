@@ -1,8 +1,9 @@
-package com.dwolla.sbt.awslambda
+package com.dwolla.sbt.s3
 
 import java.io.File
 
 import com.amazonaws.services.s3.transfer.{TransferManager, Upload}
+import com.dwolla.sbt.s3.model._
 import com.dwolla.sbt.testutils.LoggerCaptor._
 import com.dwolla.util.Environment
 import org.specs2.mock.Mockito
@@ -15,10 +16,9 @@ import scala.collection.JavaConverters._
 class S3PublisherPluginSpec extends Specification with Mockito {
 
   class Setup(environment: (String, String)*) extends Scope {
-    val testClass = new S3PublisherPlugin(FakeEnvironment(Map(environment: _*))) {
-      override protected def sha1(jar: File): String = if (jar == mockFile) "sha1" else "the wrong file was passed into the SHA1 function"
-    }
     val mockFile = mock[File]
+    val hashingStrategy: File ⇒ String = file ⇒ if (file == mockFile) "sha1" else "the wrong file was passed into the SHA1 function"
+    val testClass = new S3PublisherPlugin(FakeEnvironment(Map(environment: _*)))
   }
 
   case class FakeEnvironment(map: Map[String, String]) extends Environment {
@@ -51,11 +51,11 @@ class S3PublisherPluginSpec extends Specification with Mockito {
 
   "s3Prefix" should {
     "parameterize normalizedName and version and return the correct path prefix" in new Setup {
-      testClass.s3Prefix("normalizedName", "version", mockFile) must_== "lambdas/normalizedName/version"
+      testClass.s3Prefix("normalizedName", "version", VersionedArtifact(mockFile, isSnapshot = false)) must_== "lambdas/normalizedName/version"
     }
 
     "include the assembly jar's sha1 in the prefix if the version is a snapshot" in new Setup {
-      testClass.s3Prefix("normalizedName", "version-SNAPSHOT", mockFile) must_== "lambdas/normalizedName/version-SNAPSHOT/sha1"
+      testClass.s3Prefix("normalizedName", "version", SnapshotArtifact(mockFile, hashingStrategy)) must_== "lambdas/normalizedName/version/sha1"
     }
   }
 
