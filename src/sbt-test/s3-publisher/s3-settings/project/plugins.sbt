@@ -6,4 +6,4 @@
   else addSbtPlugin("com.dwolla.sbt" % "sbt-s3-publisher" % pluginVersion)
 }
 
-libraryDependencies += "com.amazonaws" % "aws-java-sdk-s3" % "1.10.75"
+libraryDependencies += "com.amazonaws" % "aws-java-sdk-s3" % "1.11.372"
