@@ -13,4 +13,5 @@ trait S3PublisherPluginKeys {
   lazy val s3Prefix = taskKey[String]("S3 prefix")
   lazy val s3Key = taskKey[String]("S3 path in bucket")
   lazy val uploadedArtifact = taskKey[File]("file to be uploaded to S3")
+  lazy val s3PublishSnapshot = settingKey[Boolean]("publish the artifact as a snapshot version?")
 }
