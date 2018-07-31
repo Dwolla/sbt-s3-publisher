@@ -5,14 +5,14 @@ lazy val buildSettings = Seq(
   description := "SBT plugin to publish an assembled jar to S3",
   licenses += ("MIT", url("http://opensource.org/licenses/MIT")),
   sbtPlugin := true,
-  crossSbtVersions := Vector("1.1.1", "0.13.16"),
+  crossSbtVersions := Vector("1.1.6"),
   startYear := Option(2016),
   resolvers += Resolver.bintrayRepo("dwolla", "maven"),
-  addSbtPlugin("com.typesafe.sbt" % "sbt-git" % "0.9.3"),
-  addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.14.6"),
+  addSbtPlugin("com.typesafe.sbt" % "sbt-git" % "1.0.0"),
+  addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.14.7"),
   libraryDependencies ++= {
-    val awsSdkVersion = "1.11.277"
-    val specs2Version = "3.8.6"
+    val awsSdkVersion = "1.11.372"
+    val specs2Version = "4.3.2"
 
     Seq(
       "com.amazonaws" % "aws-java-sdk-s3" % awsSdkVersion,

@@ -10,7 +10,10 @@ lazy val fakeTransferManager = settingKey[FakeS3TransferManager]("")
 
 fakeTransferManager := new FakeS3TransferManager
 s3TransferManager := fakeTransferManager.value
-isSnapshot := false
+
+// override the git values that trigger snapshot mode
+git.gitCurrentBranch := "master"
+git.gitUncommittedChanges := false
 
 val app = (project in file("."))
   .enablePlugins(PublishToS3)
