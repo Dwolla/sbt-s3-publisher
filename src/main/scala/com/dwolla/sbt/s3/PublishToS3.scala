@@ -29,14 +29,14 @@ object PublishToS3 extends AutoPlugin {
     publishBranch := "master"
   )
 
-  private def masterBranchIsCheckedOut(branch: String, headCommit: Option[String], gitRunner: GitRunner, workingDirectory: File, log: Logger): Boolean =
+  private def publishBranchIsCheckedOut(branch: String, headCommit: Option[String], gitRunner: GitRunner, workingDirectory: File, log: Logger): Boolean =
     headCommit.contains(gitRunner(s"rev-parse $branch")(workingDirectory, log))
 
   lazy val tasks = Seq(
     s3PublishSnapshot := !(
       !git.gitUncommittedChanges.value && (
         git.gitCurrentBranch.value == publishBranch.value ||
-          masterBranchIsCheckedOut(publishBranch.value, git.gitHeadCommit.value, git.runner.value, baseDirectory.value, streams.value.log)
+          publishBranchIsCheckedOut(publishBranch.value, git.gitHeadCommit.value, git.runner.value, baseDirectory.value, streams.value.log)
       )),
     s3Bucket := plugin.s3Bucket(s3BucketEnvironmentVariable.value, defaultS3Bucket.value),
     s3Prefix := plugin.s3Prefix(normalizedName.value, version.value, VersionedArtifact((assembly in assembly).value, s3PublishSnapshot.value)),

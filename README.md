@@ -46,7 +46,7 @@ The intention is to allow a build system to set a different, more restrictive bu
 
 By default, `s3Key` will be set to `lambdas/{normalizedName}/{version}/{normalizedName}.jar`.
 
-If there are uncommitted changes, or publishing from a branch other than `master`, the SHA1 hash of the assembly JAR will be included in the path.
+If there are uncommitted changes, or publishing from a branch whose git-ref does not match the `publishBranch` value (defaults to `master`), the SHA1 hash of the assembly JAR will be included in the path.
 
 ### `s3TransferManager`
 
