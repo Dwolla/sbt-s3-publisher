@@ -7,6 +7,8 @@ lazy val fakeGitRunner = settingKey[FakeGitRunner]("")
 
 fakeGitRunner := new FakeGitRunner
 
+// Fake S3 manager to not actually publish during tests
+s3TransferManager := new FakeS3TransferManager
 
 // Verify that when checking out a branch that doesn't match `publishBranch`, if that branch's git-ref matches
 // `publishBranch`'s git-ref, we still assume it's not a snapshot build
