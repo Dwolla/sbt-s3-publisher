@@ -15,8 +15,7 @@ env:
     - AWS_REGION=us-west-2
     - secure: "oH0+kCxBCvbBYNaMymTaBjHnNmW6fYxLjBx99GmyFcqvx+wq5X+6D0JwHj/JcUldsD0ROkuAVYIQm996eUQiIckfyowV4brYWrVNJ4ZyFr30a41IQL7AzDki1R/u4FlyLRGOcUvBpkOfFAc7m7+PIkW3cqo/ylfxpFBb3kKoDZFJ2YXUX9M87DBgKpFo3lNJx4QjQoUoUGCToXr2wXD3aebFJybTpUyhAqFFergj4ccY+t2vkJ5a007cztMWRiOnhp1fWgFgo71q6VSE61HWuy+r0iqUoyoTDNi4zymL2YTRlGF/h75Iw864W2kgHqxOrXdKx8xu4nN5ha3cinPY8ETNgdh0ROrM1seMbA+am1CGHyBbe8gtkKmTVMpS4iEHJNq4s6HPA3SApLxAkktJNC5rsiRs7RWnzAvEdpAjvo5BEsM+2MgIOLF4v2LWasWYVflY82j43SQoOIASkm+BC9MLul413kPieazG9OjatFrDLynaZhVdRAZ5Nw0jWYWtwsr26+nojjAiwmTNsnYO6al8na13VPkw3eEbDEgzOWZ2/oqycSItNF3XA4dbLk/2d7InwSEr9s+NDlnrsOWzvZ7eLuejKtWb922fDLAFx1RbnKKrfkOmrCxsqGyZ/WdqI/+YX8cJteTvlxjGYO57gwFqrUj32OkVeHCoqTtJPfs="
   matrix:
-    - SBT_VERSION="1.0.4"
-    - SBT_VERSION="1.1.6"
+    - SBT_VERSION="1.2.8"
 
 script:
   - sbt "^^${SBT_VERSION}" test scripted
@@ -30,4 +29,4 @@ deploy:
     script: .travis/release.sh
     on:
       branch: master
-      condition: $SBT_VERSION == "1.1.6" && $(git log -n1 --format=format:"%an") != "Dwolla Bot"
+      condition: $SBT_VERSION == "1.2.8" && $(git log -n1 --format=format:"%an") != "Dwolla Bot"

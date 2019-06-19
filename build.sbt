@@ -5,7 +5,7 @@ lazy val buildSettings = Seq(
   description := "SBT plugin to publish an assembled jar to S3",
   licenses += ("MIT", url("http://opensource.org/licenses/MIT")),
   sbtPlugin := true,
-  crossSbtVersions := Vector("1.1.6"),
+  crossSbtVersions := Vector("1.2.8"),
   startYear := Option(2016),
   resolvers += Resolver.bintrayRepo("dwolla", "maven"),
   addSbtPlugin("com.typesafe.sbt" % "sbt-git" % "1.0.0"),
@@ -62,4 +62,5 @@ scriptedLaunchOpts := { scriptedLaunchOpts.value ++
 //scriptedBufferLog := false
 
 val s3PublisherPlugin = (project in file("."))
+  .enablePlugins(SbtPlugin)
   .settings(buildSettings ++ bintraySettings ++ releaseSettings: _*)
