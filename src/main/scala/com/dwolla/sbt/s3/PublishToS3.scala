@@ -30,7 +30,7 @@ object PublishToS3 extends AutoPlugin {
   )
 
   private def publishBranchIsCheckedOut(branch: String, headCommit: Option[String], gitRunner: GitRunner, workingDirectory: File, log: Logger): Boolean =
-    headCommit.contains(gitRunner(s"rev-parse $branch")(workingDirectory, log))
+    headCommit.contains(gitRunner("rev-parse", branch)(workingDirectory, log))
 
   lazy val tasks = Seq(
     s3PublishSnapshot := !(
