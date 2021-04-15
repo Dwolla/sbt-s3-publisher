@@ -3,8 +3,6 @@ package com.dwolla.sbt.s3
 import com.amazonaws.services.s3.transfer.TransferManager
 import sbt._
 
-import scala.language.postfixOps
-
 trait S3PublisherPluginKeys {
   lazy val s3BucketEnvironmentVariable = settingKey[Option[String]]("environment variable possibly holding an override to «defaultS3Bucket»")
   lazy val s3TransferManager = settingKey[TransferManager]("S3 transfer manager")

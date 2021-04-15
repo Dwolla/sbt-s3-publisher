@@ -65,12 +65,6 @@ class S3PublisherPluginSpec extends Specification with Mockito {
     }
   }
 
-  "s3TransferManager" should {
-    "be an instance of the S3 Transfer Manager" in new Setup {
-      testClass.s3TransferManager must beAnInstanceOf[TransferManager]
-    }
-  }
-
   "publish" should {
     "log intention, upload assembly, and log completion" in new Setup {
       val artifact = {
