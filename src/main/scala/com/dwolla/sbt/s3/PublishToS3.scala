@@ -8,8 +8,6 @@ import sbt.Keys._
 import sbt._
 import sbtassembly.AssemblyPlugin
 
-import scala.language.{implicitConversions, postfixOps}
-
 object PublishToS3 extends AutoPlugin {
 
   object autoImport extends S3PublisherPluginKeys
@@ -25,7 +23,7 @@ object PublishToS3 extends AutoPlugin {
     s3BucketEnvironmentVariable := plugin.defaultBucketEnvironmentVariable,
     s3TransferManager := plugin.s3TransferManager,
     defaultS3Bucket := plugin.defaultS3Bucket,
-    uploadedArtifact := (assembly in assembly).value,
+    uploadedArtifact := (assembly / assembly).value,
     publishBranch := "master"
   )
 
@@ -39,7 +37,7 @@ object PublishToS3 extends AutoPlugin {
           publishBranchIsCheckedOut(publishBranch.value, git.gitHeadCommit.value, git.runner.value, baseDirectory.value, streams.value.log)
       )),
     s3Bucket := plugin.s3Bucket(s3BucketEnvironmentVariable.value, defaultS3Bucket.value),
-    s3Prefix := plugin.s3Prefix(normalizedName.value, version.value, VersionedArtifact((assembly in assembly).value, s3PublishSnapshot.value)),
+    s3Prefix := plugin.s3Prefix(normalizedName.value, version.value, VersionedArtifact((assembly / assembly).value, s3PublishSnapshot.value)),
     s3Key := plugin.s3Key(s3Prefix.value, normalizedName.value),
     publish := plugin.publish(uploadedArtifact.value, s3Bucket.value, s3Key.value, streams.value.log, s3TransferManager.value)
     )

@@ -24,7 +24,7 @@ TaskKey[Unit]("check") := {
   val s3BucketValue = s3Bucket.value
   val s3PrefixValue = s3Prefix.value
   val s3KeyValue = s3Key.value
-  val uploadedFile = (assembly in assembly).value
+  val uploadedFile = (assembly / assembly).value
   val fakeTransferManagerValue = fakeTransferManager.value
   publish.value
 
